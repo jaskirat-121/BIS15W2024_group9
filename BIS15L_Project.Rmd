@@ -11,4 +11,63 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+#Install Library 
+```{r}
+#install.packages("tidyverse")
+#install.packages("janitor")
+```
+
+
+#Load Library
+```{r}
+library(tidyverse)
+library(janitor)
+library(paletteer)
+library(ggthemes)
+```
+
+
+
+#Import Data
+```{r}
+health_data <- read_csv("ss.csv")
+health_data <- clean_names(health_data)
+```
+```{r}
+colors <- paletteer::palettes_d_names
+```
+
+```{r}
+my_palette <- paletteer_d("awtools::bpalette")
+```
+
+#Effects of occupation on sleep duration
+```{r}
+health_data %>% 
+  group_by(occupation) %>% 
+  summarize(average_sleep_duration=mean(sleep_duration)) %>% 
+  ggplot(aes(x=occupation, y=average_sleep_duration, fill=occupation))+
+  geom_col()+
+  scale_fill_manual(values=my_palette)+
+  theme_classic()+
+  coord_flip()+
+  labs(title="Average Sleep Duration For Various Occupations")
+  
+```
+
+
+```{r}
+health_data %>% 
+  ggplot(aes(x=occupation, y=sleep_duration, fill=occupation))+
+  geom_boxplot()+
+  scale_fill_manual(values=my_palette)+
+  theme_classic()+
+  labs(title="Average Sleep Duration Ranges For Various Occupations")+
+  theme(axis.text.x=element_text(angle=60,hjust=1))
+```
+#Count
+```{r}
+health_data %>% 
+  count(occupation, sort=T)
+```
 

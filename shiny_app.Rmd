@@ -1,0 +1,49 @@
+---
+title: "shiny_app"
+output: html_document
+date: "2024-03-06"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load libraries
+```{r, echo=FALSE}
+#install.packages("shiny")
+#install.packages("shinydashboard")
+library(shiny)
+library(tidyverse)
+library(shinydashboard)
+```
+
+```{r, eval=F, echo=T}
+# ui <- dashboardPage(
+  
+  dashboardHeader(title = "Health information based on Occupation"),
+  
+  dashboardSidebar(disable=T),
+  
+  dashboardBody(
+    fluidRow(
+      box(width=3, 
+          selectInput("x", "Select Occupation", choices=unique(health_data$occupation)), hr()
+),
+box(width=7, 
+    plotOutput("plot", width="600px", height="400px"))
+    )
+  )
+)
+
+#server <- function(input, output) {
+  session$onSessionEnded(stopApp) #stops app when we close it
+  
+  output$plot <- renderPlot({
+    wolves %>% 
+      filter(sex!="NA") %>% 
+      filter(pop==input)
+  })
+}
+
+#shinyApp(ui, server)
+```

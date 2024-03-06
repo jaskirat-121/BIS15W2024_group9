@@ -27,10 +27,9 @@ library(ggthemes)
 ```
 
 
-
 #Import Data
 ```{r}
-health_data <- read_csv("ss.csv")
+health_data <- read_csv("data/ss.csv")
 health_data <- clean_names(health_data)
 ```
 ```{r}
@@ -49,10 +48,12 @@ health_data %>%
   ggplot(aes(x=occupation, y=average_sleep_duration, fill=occupation))+
   geom_col()+
   scale_fill_manual(values=my_palette)+
-  theme_classic()+
+  theme_light()+
   coord_flip()+
-  labs(title="Average Sleep Duration For Various Occupations")
-  
+  labs(title="Average Sleep Duration Ranges For Various Occupations",
+       x="Occupation", 
+       y="Average Sleep Duration (hrs)", 
+       fill="Occupation")
 ```
 
 
@@ -61,8 +62,11 @@ health_data %>%
   ggplot(aes(x=occupation, y=sleep_duration, fill=occupation))+
   geom_boxplot()+
   scale_fill_manual(values=my_palette)+
-  theme_classic()+
-  labs(title="Average Sleep Duration Ranges For Various Occupations")+
+  theme_light()+
+  labs(title="Average Sleep Duration Ranges For Various Occupations",
+       x="Occupation", 
+       y="Sleep Duration (hrs)", 
+       fill="Occupation")+
   theme(axis.text.x=element_text(angle=60,hjust=1))
 ```
 #Count
@@ -70,4 +74,29 @@ health_data %>%
 health_data %>% 
   count(occupation, sort=T)
 ```
+
+# Top 5 occupations in dataset
+
+```{r}
+selected_data <- health_data %>% 
+  filter(occupation=="Nurse"| occupation=="Doctor"| occupation=="Engineer"| occupation=="Lawyer"| occupation=="Teacher")
+selected_data
+```
+
+# Sleep duration vs quality of sleep 
+```{r}
+selected_data %>% 
+  ggplot(aes(x=sleep_duration, y=quality_of_sleep, fill=occupation))+
+  geom_col()+
+  facet_wrap(~occupation)+
+  scale_fill_manual(values=my_palette)+
+  theme_light()+
+  labs(title="Sleep Duration VS Quality of Sleep")
+```
+
+# Stress Levels based on occupation 
+```{r}
+
+```
+
 

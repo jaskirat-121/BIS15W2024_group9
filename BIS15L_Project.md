@@ -4,7 +4,7 @@ author: "Jaskirat"
 date: "2024-03-06"
 output: 
   html_document: 
-    keep_md: true
+    keep_md: yes
 ---
 
 
@@ -25,7 +25,7 @@ library(tidyverse)
 
 ```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ dplyr     1.1.4     ✔ readr     2.1.4
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
 ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
@@ -52,6 +52,10 @@ library(janitor)
 ```r
 library(paletteer)
 library(ggthemes)
+```
+
+```
+## Warning: package 'ggthemes' was built under R version 4.3.2
 ```
 
 
@@ -189,5 +193,35 @@ selected_data %>%
 
 # Stress Levels based on occupation 
 
+```r
+selected_data %>% 
+  ggplot(aes(x=stress_level, fill=occupation))+
+  geom_bar()+
+  facet_wrap(~occupation)+
+  scale_fill_manual(values=my_palette)+
+  theme_light()+
+  labs(title="Stress Levels for Each Occupation")
+```
 
+![](BIS15L_Project_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+
+
+```r
+bloodp<- selected_data %>% 
+  select(occupation, blood_pressure)
+```
+
+# Blood pressures of each occupation 
+
+```r
+selected_data %>% 
+  ggplot(aes(x=blood_pressure, fill=occupation))+
+  facet_wrap(~occupation)+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_fill_manual(values=my_palette)+
+  theme_light()+
+  labs(title="Stress Levels for Each Occupation")
+```
+
+![](BIS15L_Project_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 

@@ -4,7 +4,7 @@ author: "Jaskirat"
 date: "2024-03-06"
 output: 
   html_document: 
-    keep_md: true
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -96,7 +96,28 @@ selected_data %>%
 
 # Stress Levels based on occupation 
 ```{r}
-
+selected_data %>% 
+  ggplot(aes(x=stress_level, fill=occupation))+
+  geom_bar()+
+  facet_wrap(~occupation)+
+  scale_fill_manual(values=my_palette)+
+  theme_light()+
+  labs(title="Stress Levels for Each Occupation")
 ```
 
+```{r}
+bloodp<- selected_data %>% 
+  select(occupation, blood_pressure)
+```
+
+# Blood pressures of each occupation 
+```{r}
+selected_data %>% 
+  ggplot(aes(x=blood_pressure, fill=occupation))+
+  facet_wrap(~occupation)+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_fill_manual(values=my_palette)+
+  theme_light()+
+  labs(title="Stress Levels for Each Occupation")
+```
 

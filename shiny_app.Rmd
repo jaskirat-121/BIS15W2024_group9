@@ -17,6 +17,58 @@ library(tidyverse)
 library(shinydashboard)
 ```
 
+Build a shiny app that allows users to select an occupation and see the health information based on that occupation. The app needs ui,server, and session$onSessionEnded(stopApp) to stop the app when we close it. 
+
+```{r}
+names(head(health_data))
+```
+
+
+
+```{r}
+ui <- dashboardPage(
+  
+  dashboardHeader(title = "Health information based on Occupation"),
+  
+  dashboardSidebar(disable=T),
+  
+  dashboardBody(
+    fluidRow(
+      box(width=3, 
+          selectInput("x", "Sleep Disorder", choices=unique(health_data$`Sleep Disorder`)), hr()
+),
+  box(width=3, 
+          selectInput("y", "Select BMI Category", choices=c("ALL"=,unique(health_data$`BMI Category`), hr()
+)),
+box(width=7, 
+    plotOutput("plot", width="600px", height="400px"))
+    ))
+  )
+)
+
+server <- function(input, output,session) {
+  session$onSessionEnded(stopApp) #stops app when we close it
+  
+  output$plot <- renderPlot({
+    health_data %>% 
+      filter(`Sleep Disorder`==input$x & `BMI Category`==input$y) %>% 
+      ggplot(aes(x=Occupation, fill=Gender))+
+      geom_bar(position="dodge")+
+      theme_light()+
+      labs(title="Sleep Duration Ranges For Various Occupations",
+           x="Occupation", 
+           fill="Occupation")
+  })
+}
+
+
+shinyApp(ui, server)
+
+```
+
+
+
+
 ```{r, eval=F, echo=T}
 # ui <- dashboardPage(
   

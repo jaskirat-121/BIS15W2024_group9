@@ -24,51 +24,11 @@ library(tidyverse)
 ```
 
 ```
-## Warning: package 'tidyverse' was built under R version 4.2.3
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 4.2.3
-```
-
-```
-## Warning: package 'tibble' was built under R version 4.2.3
-```
-
-```
-## Warning: package 'tidyr' was built under R version 4.2.3
-```
-
-```
-## Warning: package 'readr' was built under R version 4.2.3
-```
-
-```
-## Warning: package 'purrr' was built under R version 4.2.3
-```
-
-```
-## Warning: package 'dplyr' was built under R version 4.2.3
-```
-
-```
-## Warning: package 'stringr' was built under R version 4.2.3
-```
-
-```
-## Warning: package 'forcats' was built under R version 4.2.3
-```
-
-```
-## Warning: package 'lubridate' was built under R version 4.2.3
-```
-
-```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.3     ✔ readr     2.1.4
-## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
 ## ✔ purrr     1.0.2     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
@@ -78,10 +38,6 @@ library(tidyverse)
 
 ```r
 library(janitor)
-```
-
-```
-## Warning: package 'janitor' was built under R version 4.2.3
 ```
 
 ```
@@ -95,26 +51,14 @@ library(janitor)
 
 ```r
 library(paletteer)
-```
-
-```
-## Warning: package 'paletteer' was built under R version 4.2.3
-```
-
-```r
 library(ggthemes)
 ```
-
-```
-## Warning: package 'ggthemes' was built under R version 4.2.3
-```
-
 
 
 #Import Data
 
 ```r
-health_data <- read_csv("ss.csv")
+health_data <- read_csv("data/ss.csv")
 ```
 
 ```
@@ -150,9 +94,12 @@ health_data %>%
   ggplot(aes(x=occupation, y=average_sleep_duration, fill=occupation))+
   geom_col()+
   scale_fill_manual(values=my_palette)+
-  theme_classic()+
+  theme_light()+
   coord_flip()+
-  labs(title="Average Sleep Duration For Various Occupations")
+  labs(title="Average Sleep Duration Ranges For Various Occupations",
+       x="Occupation", 
+       y="Average Sleep Duration (hrs)", 
+       fill="Occupation")
 ```
 
 ![](BIS15L_Project_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
@@ -164,8 +111,11 @@ health_data %>%
   ggplot(aes(x=occupation, y=sleep_duration, fill=occupation))+
   geom_boxplot()+
   scale_fill_manual(values=my_palette)+
-  theme_classic()+
-  labs(title="Average Sleep Duration Ranges For Various Occupations")+
+  theme_light()+
+  labs(title="Average Sleep Duration Ranges For Various Occupations",
+       x="Occupation", 
+       y="Sleep Duration (hrs)", 
+       fill="Occupation")+
   theme(axis.text.x=element_text(angle=60,hjust=1))
 ```
 
@@ -193,4 +143,51 @@ health_data %>%
 ## 10 Sales Representative     2
 ## 11 Manager                  1
 ```
+
+# Top 5 occupations in dataset
+
+
+```r
+selected_data <- health_data %>% 
+  filter(occupation=="Nurse"| occupation=="Doctor"| occupation=="Engineer"| occupation=="Lawyer"| occupation=="Teacher")
+selected_data
+```
+
+```
+## # A tibble: 293 × 13
+##    person_id gender   age occupation sleep_duration quality_of_sleep
+##        <dbl> <chr>  <dbl> <chr>               <dbl>            <dbl>
+##  1         2 Male      28 Doctor                6.2                6
+##  2         3 Male      28 Doctor                6.2                6
+##  3         7 Male      29 Teacher               6.3                6
+##  4         8 Male      29 Doctor                7.8                7
+##  5         9 Male      29 Doctor                7.8                7
+##  6        10 Male      29 Doctor                7.8                7
+##  7        11 Male      29 Doctor                6.1                6
+##  8        12 Male      29 Doctor                7.8                7
+##  9        13 Male      29 Doctor                6.1                6
+## 10        14 Male      29 Doctor                6                  6
+## # ℹ 283 more rows
+## # ℹ 7 more variables: physical_activity_level <dbl>, stress_level <dbl>,
+## #   bmi_category <chr>, blood_pressure <chr>, heart_rate <dbl>,
+## #   daily_steps <dbl>, sleep_disorder <chr>
+```
+
+# Sleep duration vs quality of sleep 
+
+```r
+selected_data %>% 
+  ggplot(aes(x=sleep_duration, y=quality_of_sleep, fill=occupation))+
+  geom_col()+
+  facet_wrap(~occupation)+
+  scale_fill_manual(values=my_palette)+
+  theme_light()+
+  labs(title="Sleep Duration VS Quality of Sleep")
+```
+
+![](BIS15L_Project_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+
+# Stress Levels based on occupation 
+
+
 

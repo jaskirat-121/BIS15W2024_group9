@@ -1,6 +1,6 @@
 ---
 title: "BIS15L_project"
-author: "Jaskirat"
+author: "Jaskirat, Mariana"
 date: "2024-03-06"
 output: 
   html_document: 
@@ -25,7 +25,7 @@ library(tidyverse)
 
 ```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.4
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
 ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
@@ -52,10 +52,6 @@ library(janitor)
 ```r
 library(paletteer)
 library(ggthemes)
-```
-
-```
-## Warning: package 'ggthemes' was built under R version 4.3.2
 ```
 
 
@@ -177,6 +173,25 @@ selected_data
 ## #   daily_steps <dbl>, sleep_disorder <chr>
 ```
 
+# Age range in data
+
+```r
+selected_data %>% 
+  ggplot(aes(x=occupation, y=age, fill=occupation))+
+  geom_boxplot()+
+  scale_fill_manual(values=my_palette)+
+  theme_light()+
+  labs(title="Age Range of data in Various Occupations",
+       x="Occupation", 
+       y="Age", 
+       fill="Occupation")+
+  theme(axis.text.x=element_text(angle=60,hjust=1))
+```
+
+![](BIS15L_Project_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+
+
+
 # Sleep duration vs quality of sleep 
 
 ```r
@@ -189,7 +204,7 @@ selected_data %>%
   labs(title="Sleep Duration VS Quality of Sleep")
 ```
 
-![](BIS15L_Project_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](BIS15L_Project_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 # Stress Levels based on occupation 
 
@@ -203,25 +218,36 @@ selected_data %>%
   labs(title="Stress Levels for Each Occupation")
 ```
 
-![](BIS15L_Project_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](BIS15L_Project_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
-
-```r
-bloodp<- selected_data %>% 
-  select(occupation, blood_pressure)
-```
-
-# Blood pressures of each occupation 
+# BMI category by occupation
 
 ```r
 selected_data %>% 
-  ggplot(aes(x=blood_pressure, fill=occupation))+
-  facet_wrap(~occupation)+
-  theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_fill_manual(values=my_palette)+
+  ggplot(aes(x=bmi_category, fill= occupation))+
+  geom_bar(position = "dodge")+
   theme_light()+
-  labs(title="Stress Levels for Each Occupation")
+  scale_fill_manual(values=my_palette)+
+  labs(title="BMI Category by Occupation",
+       x="BMI Category", 
+       y="Number",
+       fill="Occupation")
 ```
 
 ![](BIS15L_Project_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+# Sleep disorders present in occupations?
+
+```r
+selected_data %>% 
+  ggplot(aes(x=sleep_disorder, fill= occupation))+
+  geom_bar(position = "dodge")+
+  theme_light()+
+  scale_fill_manual(values=my_palette)+
+  labs(title="Sleep Disorders in Occupations",
+       x="Sleep Disorder", 
+       y="Number",
+       fill="Occupation")
+```
+
+![](BIS15L_Project_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 

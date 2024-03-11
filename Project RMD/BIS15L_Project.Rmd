@@ -1,6 +1,6 @@
 ---
 title: "BIS15L_project"
-author: "Jaskirat"
+author: "Jaskirat, Mariana"
 date: "2024-03-06"
 output: 
   html_document: 
@@ -83,6 +83,22 @@ selected_data <- health_data %>%
 selected_data
 ```
 
+# Age range in data
+```{r}
+selected_data %>% 
+  ggplot(aes(x=occupation, y=age, fill=occupation))+
+  geom_boxplot()+
+  scale_fill_manual(values=my_palette)+
+  theme_light()+
+  labs(title="Age Range of data in Various Occupations",
+       x="Occupation", 
+       y="Age", 
+       fill="Occupation")+
+  theme(axis.text.x=element_text(angle=60,hjust=1))
+```
+
+
+
 # Sleep duration vs quality of sleep 
 ```{r}
 selected_data %>% 
@@ -105,19 +121,28 @@ selected_data %>%
   labs(title="Stress Levels for Each Occupation")
 ```
 
-```{r}
-bloodp<- selected_data %>% 
-  select(occupation, blood_pressure)
-```
-
-# Blood pressures of each occupation 
+# BMI category by occupation
 ```{r}
 selected_data %>% 
-  ggplot(aes(x=blood_pressure, fill=occupation))+
-  facet_wrap(~occupation)+
-  theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_fill_manual(values=my_palette)+
+  ggplot(aes(x=bmi_category, fill= occupation))+
+  geom_bar(position = "dodge")+
   theme_light()+
-  labs(title="Stress Levels for Each Occupation")
+  scale_fill_manual(values=my_palette)+
+  labs(title="BMI Category by Occupation",
+       x="BMI Category", 
+       y="Number",
+       fill="Occupation")
+```
+# Sleep disorders present in occupations?
+```{r}
+selected_data %>% 
+  ggplot(aes(x=sleep_disorder, fill= occupation))+
+  geom_bar(position = "dodge")+
+  theme_light()+
+  scale_fill_manual(values=my_palette)+
+  labs(title="Sleep Disorders in Occupations",
+       x="Sleep Disorder", 
+       y="Number",
+       fill="Occupation")
 ```
 

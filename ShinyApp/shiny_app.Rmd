@@ -16,16 +16,21 @@ library(shiny)
 library(tidyverse)
 library(shinydashboard)
 library(janitor)
+library(paletteer)
+
 ```
 
 Build a shiny app that allows users to select an occupation and see the health information based on that occupation. The app needs ui,server, and session$onSessionEnded(stopApp) to stop the app when we close it. 
 
+
+
+# Load data
 ```{r}
-names(head(health_data))
+health_data <- read.csv("data/ss.csv") %>% clean_names()
 ```
 
 ```{r}
-health_data <- read.csv("data/ss.csv") %>% clean_names()
+names(head(health_data))
 ```
 
 
@@ -47,81 +52,32 @@ health_data %>%
 ```
 
 
+# Create a Shiny App for categorical data in the data set 
 ```{r}
+my_palette <- paletteer_d("futurevisions::atomic_red")
+
 ui <- dashboardPage(
-  
   dashboardHeader(title = "Health information based on Occupation"),
   
-  dashboardSidebar(disable=T),
+  dashboardSidebar(
+    width = 250, # You can adjust the width as needed
+    selectInput("x", "Sleep Disorder", choices=c("All", unique(health_data$`sleep_disorder`))),
+    hr(),
+    selectInput("y", "Select BMI Category", choices=c("All", unique(health_data$bmi_category))),
+    hr(),
+    selectInput("z", "Select Daily Steps", choices=c("All", unique(health_data$daily_steps_category))),
+    hr(),
+    selectInput("a", "Select Blood Pressure Category", choices=c("All", unique(health_data$blood_pressure_category))),
+    hr()
+  ),
   
   dashboardBody(
     fluidRow(
-      box( 
-          selectInput("x", "Sleep Disorder", choices=unique(health_data$`sleep_disorder`)), hr()
-),
-box( 
-    selectInput("y", "Select BMI Category", choices=unique(health_data$bmi_category)), hr()
-    ),
-    box( 
-    selectInput("z", "Select Daily Steps", choices=unique(health_data$daily_steps_category)), hr()
-    ),
-box( 
-    selectInput("a", "Select Daily Steps", choices=unique(health_data$blood_pressure_category)), hr()
-    ),
-box(width=7, 
-    plotOutput("plot", width="600px", height="400px"))
-    )
-    ))
-
-
-server <- function(input, output,session) {
-  session$onSessionEnded(stopApp) #stops app when we close it
-  
-  output$plot <- renderPlot({
-    health_data %>% 
-      filter(sleep_disorder==input$x & bmi_category==input$y & daily_steps_category==input$z & blood_pressure_category==input$a) %>% 
-      ggplot(aes(x=occupation, fill=gender))+
-      geom_bar(position="dodge")+
-      theme_light()+
-      labs(title="Sleep Duration Ranges For Various Occupations",
-           x="Occupation", 
-           fill="Occupation")
-  })
-}
-
-
-shinyApp(ui, server)
-
-```
-
-
-```{r}
-ui <- dashboardPage(
-  
-  dashboardHeader(title = "Health information based on Occupation"),
-  
-  dashboardSidebar(disable=TRUE),
-  
-  dashboardBody(
-    fluidRow(
-      box( 
-        selectInput("x", "Sleep Disorder", choices=c("All", unique(health_data$`sleep_disorder`))), hr()
-      ),
-      box( 
-        selectInput("y", "Select BMI Category", choices=c("All", unique(health_data$bmi_category))), hr()
-      ),
-      box( 
-        selectInput("z", "Select Daily Steps", choices=c("All", unique(health_data$daily_steps_category))), hr()
-      ),
-      box( 
-        selectInput("a", "Select Blood Pressure Category", choices=c("All", unique(health_data$blood_pressure_category))), hr()
-      ),
-      box(width=7, 
-        plotOutput("plot", width="600px", height="400px"))
+      box(width = 12, 
+          plotOutput("plot", width="100%", height="400px"))
     )
   )
 )
-
 
 server <- function(input, output, session) {
   session$onSessionEnded(stopApp) #stops app when we close it
@@ -146,6 +102,7 @@ server <- function(input, output, session) {
       ggplot(aes(x=occupation, fill=gender))+
       geom_bar(position="dodge")+
       theme_light()+
+      scale_fill_manual(values=my_palette)+
       theme(axis.text.x=element_text(angle=90,hjust=1))+
       labs(title="Health Information by Occupation",
            x="Occupation", 
@@ -156,5 +113,4 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 ```
-
 

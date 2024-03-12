@@ -12,6 +12,7 @@ output:
 #Install Library 
 
 ```r
+#install.packages("here")
 #install.packages("tidyverse")
 #install.packages("janitor")
 ```
@@ -25,7 +26,7 @@ library(tidyverse)
 
 ```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ dplyr     1.1.4     ✔ readr     2.1.4
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
 ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
@@ -54,11 +55,23 @@ library(paletteer)
 library(ggthemes)
 ```
 
+```
+## Warning: package 'ggthemes' was built under R version 4.3.2
+```
+
+```r
+library(here)
+```
+
+```
+## here() starts at /Users/memontal/Desktop/BIS15W2024_group9
+```
+
 
 #Import Data
 
 ```r
-health_data <- read_csv("data/ss.csv")
+health_data <- read_csv(here("data/ss.csv"))
 ```
 
 ```
@@ -85,6 +98,43 @@ colors <- paletteer::palettes_d_names
 my_palette <- paletteer_d("awtools::bpalette")
 ```
 
+# data overview
+
+```r
+summary(health_data)
+```
+
+```
+##    person_id      gender               age         occupation       
+##  Min.   :  1   Length:373         Min.   :27.00   Length:373        
+##  1st Qu.: 94   Class :character   1st Qu.:35.00   Class :character  
+##  Median :187   Mode  :character   Median :43.00   Mode  :character  
+##  Mean   :187                      Mean   :42.14                     
+##  3rd Qu.:280                      3rd Qu.:50.00                     
+##  Max.   :373                      Max.   :59.00                     
+##  sleep_duration  quality_of_sleep physical_activity_level  stress_level  
+##  Min.   :5.800   Min.   :4.000    Min.   :30.00           Min.   :3.000  
+##  1st Qu.:6.400   1st Qu.:6.000    1st Qu.:45.00           1st Qu.:4.000  
+##  Median :7.200   Median :7.000    Median :60.00           Median :5.000  
+##  Mean   :7.129   Mean   :7.308    Mean   :59.13           Mean   :5.391  
+##  3rd Qu.:7.800   3rd Qu.:8.000    3rd Qu.:75.00           3rd Qu.:7.000  
+##  Max.   :8.500   Max.   :9.000    Max.   :90.00           Max.   :8.000  
+##  bmi_category       blood_pressure       heart_rate     daily_steps   
+##  Length:373         Length:373         Min.   :65.00   Min.   : 3000  
+##  Class :character   Class :character   1st Qu.:68.00   1st Qu.: 5600  
+##  Mode  :character   Mode  :character   Median :70.00   Median : 7000  
+##                                        Mean   :70.17   Mean   : 6816  
+##                                        3rd Qu.:72.00   3rd Qu.: 8000  
+##                                        Max.   :86.00   Max.   :10000  
+##  sleep_disorder    
+##  Length:373        
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## 
+```
+
 #Effects of occupation on sleep duration
 
 ```r
@@ -96,13 +146,13 @@ health_data %>%
   scale_fill_manual(values=my_palette)+
   theme_light()+
   coord_flip()+
-  labs(title="Average Sleep Duration Ranges For Various Occupations",
+  labs(title="Average Sleep Duration For Various Occupations",
        x="Occupation", 
        y="Average Sleep Duration (hrs)", 
        fill="Occupation")
 ```
 
-![](BIS15L_Project_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](BIS15L_Project_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 
 
@@ -119,7 +169,7 @@ health_data %>%
   theme(axis.text.x=element_text(angle=60,hjust=1))
 ```
 
-![](BIS15L_Project_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](BIS15L_Project_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 #Count
 
 ```r
@@ -188,7 +238,7 @@ selected_data %>%
   theme(axis.text.x=element_text(angle=60,hjust=1))
 ```
 
-![](BIS15L_Project_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](BIS15L_Project_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 
 
@@ -204,7 +254,7 @@ selected_data %>%
   labs(title="Sleep Duration VS Quality of Sleep")
 ```
 
-![](BIS15L_Project_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](BIS15L_Project_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 # Stress Levels based on occupation 
 
@@ -218,7 +268,7 @@ selected_data %>%
   labs(title="Stress Levels for Each Occupation")
 ```
 
-![](BIS15L_Project_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](BIS15L_Project_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 # BMI category by occupation
 
@@ -234,7 +284,7 @@ selected_data %>%
        fill="Occupation")
 ```
 
-![](BIS15L_Project_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](BIS15L_Project_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 # Sleep disorders present in occupations?
 
 ```r
@@ -249,5 +299,5 @@ selected_data %>%
        fill="Occupation")
 ```
 
-![](BIS15L_Project_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](BIS15L_Project_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 

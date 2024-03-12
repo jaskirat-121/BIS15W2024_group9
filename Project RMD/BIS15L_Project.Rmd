@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Install Library 
 ```{r}
+#install.packages("here")
 #install.packages("tidyverse")
 #install.packages("janitor")
 ```
@@ -24,12 +25,13 @@ library(tidyverse)
 library(janitor)
 library(paletteer)
 library(ggthemes)
+library(here)
 ```
 
 
 #Import Data
 ```{r}
-health_data <- read_csv("data/ss.csv")
+health_data <- read_csv(here("data/ss.csv"))
 health_data <- clean_names(health_data)
 ```
 ```{r}
@@ -38,6 +40,11 @@ colors <- paletteer::palettes_d_names
 
 ```{r}
 my_palette <- paletteer_d("awtools::bpalette")
+```
+
+# data overview
+```{r}
+summary(health_data)
 ```
 
 #Effects of occupation on sleep duration
@@ -50,7 +57,7 @@ health_data %>%
   scale_fill_manual(values=my_palette)+
   theme_light()+
   coord_flip()+
-  labs(title="Average Sleep Duration Ranges For Various Occupations",
+  labs(title="Average Sleep Duration For Various Occupations",
        x="Occupation", 
        y="Average Sleep Duration (hrs)", 
        fill="Occupation")

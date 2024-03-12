@@ -52,7 +52,7 @@ health_data %>%
   scale_fill_manual(values=my_palette)+
   theme_light()+
   coord_flip()+
-  labs(title="Average Sleep Duration Ranges For Various Occupations",
+  labs(title="Average Sleep Duration For Various Occupations",
        x="Occupation", 
        y="Average Sleep Duration (hrs)", 
        fill="Occupation")

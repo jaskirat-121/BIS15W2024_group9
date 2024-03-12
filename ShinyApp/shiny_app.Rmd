@@ -12,12 +12,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, echo=FALSE}
 #install.packages("shiny")
 #install.packages("shinydashboard")
+#install.packages("here")
 library(shiny)
 library(tidyverse)
 library(shinydashboard)
 library(janitor)
 library(paletteer)
-
+library(here)
 ```
 
 Build a shiny app that allows users to select an occupation and see the health information based on that occupation. The app needs ui,server, and session$onSessionEnded(stopApp) to stop the app when we close it. 
@@ -26,7 +27,7 @@ Build a shiny app that allows users to select an occupation and see the health i
 
 # Load data
 ```{r}
-health_data <- read.csv("data/ss.csv") %>% clean_names()
+health_data <- read_csv(here("data/ss.csv")) %>% clean_names()
 ```
 
 ```{r}

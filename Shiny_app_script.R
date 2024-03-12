@@ -3,7 +3,22 @@ library(tidyverse)
 library(shinydashboard)
 library(janitor)
 library(paletteer)
+library(here)
 
+health_data <- read_csv(here("data/ss.csv")) %>% clean_names()
+
+health_data %>% 
+  mutate(daily_steps_category = case_when(
+    daily_steps < 5000 ~ "Low",
+    daily_steps >= 5000 & daily_steps < 10000 ~ "Moderate",
+    daily_steps >= 10000 ~ "High"
+  )) %>% 
+  mutate(blood_pressure_category = case_when(
+    blood_pressure < 120 ~ "Normal",
+    blood_pressure >= 120 & blood_pressure < 130 ~ "Elevated",
+    blood_pressure >= 130 & blood_pressure < 140 ~ "High Blood Pressure Stage 1",
+    blood_pressure >= 140 ~ "High Blood Pressure Stage 2"
+  )) -> health_data
 
 
 my_palette <- paletteer_d("futurevisions::atomic_red")

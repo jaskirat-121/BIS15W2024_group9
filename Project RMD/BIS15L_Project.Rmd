@@ -42,6 +42,11 @@ colors <- paletteer::palettes_d_names
 my_palette <- paletteer_d("awtools::bpalette")
 ```
 
+# data overview
+```{r}
+summary(health_data)
+```
+
 #Effects of occupation on sleep duration
 ```{r}
 health_data %>% 

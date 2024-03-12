@@ -4,7 +4,7 @@
 
 ### Group Members: Jaskirat Singh & Mariana Montalvo 
 
-###### Data: [Sleep, Health, and Lifestyle by Henry Shan](kaggle datasets download -d henryshan/sleep-health-and-lifestyle) 
+###### Data: Sleep, Health, and Lifestyle by Henry Shan -> kaggle datasets download -d henryshan/sleep-health-and-lifestyle
 
 #### Contributions: 
 ###### Data exploration & presentation – all group members

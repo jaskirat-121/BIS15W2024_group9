@@ -12,6 +12,7 @@ output:
 #Install Library 
 
 ```r
+#install.packages("here")
 #install.packages("tidyverse")
 #install.packages("janitor")
 ```
@@ -25,7 +26,7 @@ library(tidyverse)
 
 ```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ dplyr     1.1.4     ✔ readr     2.1.4
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
 ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
@@ -54,11 +55,23 @@ library(paletteer)
 library(ggthemes)
 ```
 
+```
+## Warning: package 'ggthemes' was built under R version 4.3.2
+```
+
+```r
+library(here)
+```
+
+```
+## here() starts at /Users/memontal/Desktop/BIS15W2024_group9
+```
+
 
 #Import Data
 
 ```r
-health_data <- read_csv("data/ss.csv")
+health_data <- read_csv(here("data/ss.csv"))
 ```
 
 ```

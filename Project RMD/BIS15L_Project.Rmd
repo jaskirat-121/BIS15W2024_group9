@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Install Library 
 ```{r}
+#install.packages("here")
 #install.packages("tidyverse")
 #install.packages("janitor")
 ```
@@ -24,12 +25,13 @@ library(tidyverse)
 library(janitor)
 library(paletteer)
 library(ggthemes)
+library(here)
 ```
 
 
 #Import Data
 ```{r}
-health_data <- read_csv("data/ss.csv")
+health_data <- read_csv(here("data/ss.csv"))
 health_data <- clean_names(health_data)
 ```
 ```{r}
